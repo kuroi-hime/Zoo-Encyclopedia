@@ -1,7 +1,7 @@
 # Zoo-Encyclopedia
 Zoo encyclopédie est une application web éducative pour enrichir les connaissances des enfants en crèche sur les animaux du zoo.
 
-## script MySQL
+## Script MySQL
 1. Initialisation de la base:
 ```SQL
 -- création de la base de données:
@@ -28,7 +28,7 @@ create table Animaux(
 );
 ```
 2. Insertion de données de test:
-```bash
+```SQL
 -- Insertion des valeurs dans la table habitats:
 insert into Habitats (NomHab, Description_Hab)
 values ('Savane', 'est une formation végétale caractéristique des régions tropicales chaudes avec une longue saison sèche, dominée par des herbes hautes de la famille des Poacées et parsemée d’arbres ou d’arbustes. Elle est souvent décrite comme une prairie herbeuse avec des herbes atteignant au moins 80 cm de hauteur à la fin de la saison de végétation');
@@ -38,7 +38,7 @@ insert into Animaux (Nom, Type_alimentaire, Image, IdHab)
 values ('Lion', 'carnivore', 'https://plus.unsplash.com/premium_photo-1666672388644-2d99f3feb9f1?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fGxpb258ZW58MHx8MHx8fDA%3D', 1);
 ```
 3. Requêtes fréquentes:
-```bash
+```SQL
 -- Lecture des données:
 select *
 from Habitats;
