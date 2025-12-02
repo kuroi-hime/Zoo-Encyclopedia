@@ -1,9 +1,9 @@
 # Zoo-Encyclopedia
 Zoo encyclopédie est une application web éducative pour enrichir les connaissances des enfants en crèche sur les animaux du zoo.
 
-# script MySQL
+## script MySQL
 1. Initialisation de la base:
-```bash
+```SQL
 -- création de la base de données:
 create database ZOO;
 
