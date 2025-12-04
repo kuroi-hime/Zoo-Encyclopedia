@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+<?php
+    include 'php/connexion.php';
+?>
 <html lang="fr">
     <head>
         <meta charset="UTF-8">
@@ -6,7 +9,7 @@
         <title>Zoo Encyclopédie</title>
         <script src="https://cdn.tailwindcss.com"></script>
     </head>
-    <body class="bg-gradient-to-br from-yellow-200 to-pink-200 min-h-screen p-4 font-sans">
+    <body class="bg-gradient-to-br from-yellow-200 to-pink-200 max-h-screen p-4 font-sans">
         <!-- header -->
         <header class="text-center mb-8">
             <h1 class="text-4xl font-bold text-blue-600 mb-2 animate-bounce">🦁 Zoo Magique !</h1>
@@ -45,47 +48,79 @@
                 ?>
             </section>
             <!-- Section Animal -->
-            <section id="animal" class="hidden ">
-                <form
-                    id="add-animal-form" 
-                    class="max-w-md mx-auto mt-8 p-4 bg-white/50 rounded-lg shadow space-y-4"
-                >
-                    <h2 class="text-xl font-semibold">Ajouter un animal</h2>
-
-                    <div>
-                        <label for="animal-name" class="block text-sm font-medium mb-1">Nom de l'animal</label>
-                        <input type="text" id="animal-name" name="animalName" required
-                        class="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            <section id="animal" class="hidden max-w-screen">
+                <div class="w-2/3 mx-auto flex gap-6 items-start items-center mt-8">
+                    <div class="w-1/3">
+                        <img
+                        src="images/animal.svg"
+                        alt="Prévisualisation"
+                        class="w-full h-auto object-cover rounded-lg shadow"
+                        id="preview-img"
                         >
                     </div>
-
-                    <div>
-                        <label for="animal-species" class="block text-sm font-medium mb-1">Espèce</label>
-                        <select id="animal-species" name="animalSpecies" required
-                        class="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        >
-                        <option value="">-- Choisir une espèce --</option>
-                        <?php
-                        echo "<option value=""></option>"
-                        ?>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label for="animal-habitat" class="block text-sm font-medium mb-1">Habitat</label>
-                        <select id="animal-habitat" name="animalHabitat" required
-                        class="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        >
-                        <option value="">-- Choisir un habitat --</option>
-                        </select>
-                    </div>
-
-                    <button type="submit"
-                        class="w-full bg-green-600 text-white text-sm font-medium py-2 rounded hover:bg-green-700 transition"
+                    <form action="php/addAnimal.php" method="post"
+                        id="add-animal-form" 
+                        class="w-2/3 bg-white/50 rounded-lg p-4 shadow space-y-4"
                     >
-                        Ajouter l'animal
-                    </button>
-                </form>
+                        <h2 class="text-xl font-semibold">Ajouter un animal</h2>
+
+                        <div>
+                            <label for="habitat-img" class="block text-sm font-medium mb-1">
+                                URL de l'image
+                            </label>
+                            <input
+                                type="url"
+                                id="habitat-img"
+                                name="habitatImg"
+                                placeholder="https://exemple.com/mon-image.jpg"
+                                class="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            >
+                        </div>
+
+                        <div>
+                            <label for="animal-name" class="block text-sm font-medium mb-1">Nom de l'animal</label>
+                            <input type="text" id="animal-name" name="animalName" required
+                            class="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            >
+                        </div>
+
+                        <div>
+                            <label for="animal-species" class="block text-sm font-medium mb-1">Régime alimentaire</label>
+                            <select id="animal-species" name="animalSpecies" required
+                            class="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            >
+                            <option value="" selected disabled>-- Choisir un régime --</option>
+                            <option value="Carnivore">Carnivore</option>
+                            <option value="Herbivore">Herbivore</option>
+                            <option value="Omnivore">Omnivore</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="animal-habitat" class="block text-sm font-medium mb-1">Habitat</label>
+                            <select id="animal-habitat" name="animalHabitat" required
+                            class="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            >
+                            <option value="" selected disabled>-- Choisir un habitat --</option>
+                            <?php
+                                $sql = "select IdHab, NomHab from Habitats";
+                                $resultats = $connexion->query($sql);
+                                foreach($resultats as $resultat){
+                                    $idHab = $resultat['IdHab'];
+                                    $nomHab = $resultat['NomHab'];
+                                    echo "<option value='$idHab'>$nomHab</option>";
+                                }
+                            ?>
+                            </select>
+                        </div>
+
+                        <button type="submit"
+                            class="w-full bg-green-600 text-white text-sm font-medium py-2 rounded hover:bg-green-700 transition"
+                        >
+                            Ajouter l'animal
+                        </button>
+                    </form>
+                </div>
             </section>
             <!-- Section Habitat -->
             <section id="habitat" class="hidden ">
