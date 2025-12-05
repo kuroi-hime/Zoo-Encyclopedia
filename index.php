@@ -74,6 +74,20 @@
             <!-- Section Habitats -->
             <section id="habitats" class="hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <?php
+                    $sql = "select * from habitats";
+                    $resultats = $connexion->query($sql);
+                    foreach($resultats as $resultat){
+                        echo "<article class='bg-white rounded-2xl shadow p-4 flex flex-col'>
+                                <div class='flex justify-between'>
+                                    <h2 class='text-lg font-semibold mb-1'>".$resultat['NomHab']."</h2>
+                                    <div>
+                                        <a href=''>✏️</a>
+                                        <a href=''>🗑️</a>
+                                    </div>
+                                </div>
+                                <p class='text-sm text-gray-600 flex-1'>".$resultat['Description_Hab']."</p>
+                                </article>";
+                    }
                 ?>
             </section>
             <!-- Section Statistiques -->
