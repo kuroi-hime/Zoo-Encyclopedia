@@ -6,6 +6,8 @@ const gameButton = document.getElementById('toGame');
 const addAnimal = document.getElementById('addAnimal');
 const addHabitat = document.getElementById('addHabitat');
 const imgHabitat = document.getElementById('habitat-img');
+const filtreRegime = document.getElementById('filtreRegime');
+const filtreHabitat = document.getElementById('filtreHabitat');
 
 function showCurrentSection(sectionName){
     document.querySelectorAll('section').forEach(section => section.classList.add('hidden'));
@@ -57,3 +59,18 @@ function turnTo(id){
     document.getElementById(id).querySelector('p').classList.toggle('hidden');
     document.getElementById(id).querySelector('form').classList.toggle('hidden');
 }
+
+function filtrer(value1, value2){
+    animaux = document.getElementsByClassName('animal');
+    Array.from(animaux).forEach(animal=>{
+        animal.classList.remove('hidden');
+        
+        if(!(animal.querySelector('p').innerText.includes(value1) && animal.getAttribute('name').includes(value2)))
+            animal.classList.add('hidden');
+    });
+    
+}
+
+filtreRegime.addEventListener('change', ()=>{filtrer(filtreRegime.value, filtreHabitat.value)});
+
+filtreHabitat.addEventListener('change', ()=>{filtrer(filtreRegime.value, filtreHabitat.value)});

@@ -34,6 +34,27 @@
             </section> -->
             <!-- Section Animaux -->
             <section id="animaux" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class='col-span-full flex gap-4 p-4 rounded-3xl bg-white'>
+                    <h2 class='text-xl font-medium text-orange-500'>Filtres: </h2>
+                    <select id="filtreRegime">
+                        <option value="" selected>tous les régimes</option>
+                        <option value="Carnivore">Carnivore</option>
+                        <option value="Herbivore">Herbivore</option>
+                        <option value="Omnivore">Omnivore</option>
+                    </select>
+                    <select id="filtreHabitat">
+                        <option value="" selected>tous les habitats</option>
+                        <?php
+                            $sql = "select IdHab, NomHab from Habitats";
+                            $resultats = $connexion->query($sql);
+                            foreach($resultats as $resultat){
+                                $idHab = $resultat['IdHab'];
+                                $nomHab = $resultat['NomHab'];
+                                echo "<option value='$idHab'>$nomHab</option>";
+                            }
+                        ?>
+                    </select>
+                </div>
                 <?php
                     $sql = "select a.ID, a.Nom, a.Type_alimentaire, a.Image, a.IdHab, h.NomHab, h.Description_Hab
                     from animaux a
@@ -47,7 +68,9 @@
                         $idHab = $resultat['IdHab']??0;
                         $nomHab = $resultat['NomHab']??'Non spécifié.';
                         $description = $resultat['Description_Hab']??'Aucune description.';
-                        echo "<div class='bg-white/80 backdrop-blur-sm rounded-3xl p-6 shadow-xl hover:shadow-2xl transition-all hover:scale-105 text-center'>
+                        echo "<div name='habitat_$idHab'
+                                class='animal bg-white/80 backdrop-blur-sm rounded-3xl p-6 shadow-xl hover:shadow-2xl transition-all hover:scale-105 text-center'
+                            >
                             <img src=$image alt=$nom class='w-full h-48 object-cover rounded-2xl mb-4 mx-auto'>
                             <h3 class='text-2xl font-bold text-orange-500 mb-2'>$nom</h3>
                             <p class='text-lg text-gray-600 mb-4'>Régime alimentaire: $regime</p>
@@ -61,7 +84,6 @@
                 <div class="bg-white/95 rounded-3xl p-2 max-w-md w-full shadow-2xl animate-in fade-in zoom-in duration-200">
                     <button onclick="closeModal()" class="absolute top-4 right-4 text-3xl text-gray-500 hover:text-red-500">&times;</button>
                     <div class="overflow-y-auto max-h-[90vh]">
-                        
                         <div id="modalContent" class="overflow-hidden">
                             <!-- Contenu dynamique ici -->
                         </div>
