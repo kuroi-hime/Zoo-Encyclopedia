@@ -66,7 +66,7 @@
                         $nom = $resultat['Nom'];
                         $regime = $resultat['Type_alimentaire'];
                         $idHab = $resultat['IdHab']??0;
-                        $nomHab = $resultat['NomHab']??'Non spécifié.';
+                        $nomHab = $resultat['NomHab']??'-';
                         $description = $resultat['Description_Hab']??'Aucune description.';
                         echo "<div name='habitat_$idHab'
                                 class='animal bg-white/80 backdrop-blur-sm rounded-3xl p-6 shadow-xl hover:shadow-2xl transition-all hover:scale-105 text-center'
@@ -84,9 +84,9 @@
                 <div class="bg-white/95 rounded-3xl p-2 max-w-md w-full shadow-2xl animate-in fade-in zoom-in duration-200">
                     <button onclick="closeModal()" class="absolute top-4 right-4 text-3xl text-gray-500 hover:text-red-500">&times;</button>
                     <div class="overflow-y-auto max-h-[90vh]">
-                        <div id="modalContent" class="overflow-hidden">
+                        <form action="php/updateAnimal.php" method="post" id="modalContent" class="overflow-hidden">
                             <!-- Contenu dynamique ici -->
-                        </div>
+                        </form>
                         <div class="flex gap-4 mt-6">
                             <!-- Sound Effect by <a href="https://pixabay.com/users/pwlpl-16464651/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=444190">Paul ( PWLPL)</a> from <a href="https://pixabay.com/sound-effects//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=444190">Pixabay</a> -->
                             <!-- <button onclick="playSound()" class="flex-1 bg-green-400 text-white py-3 px-6 rounded-xl text-xl font-bold shadow-lg hover:bg-green-300 transition-all">🎵 Écouter</button> -->

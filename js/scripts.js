@@ -29,11 +29,23 @@ function setImage(url){
 
 imgHabitat.addEventListener('input', ()=>{setImage(imgHabitat.value)});
 
+function turnTo_animal(id){
+    const divs = document.getElementById('modalContent').querySelectorAll('div');
+    const buttons = divs[0].querySelectorAll('button');
+    buttons.forEach(button=>{
+        button.classList.toggle('hidden');  
+    });
+    divs[1].classList.toggle('hidden');
+    divs[2].classList.toggle('hidden');
+    divs[3].classList.toggle('hidden'); 
+}
+
 function showAnimalDetails(id, image, nom, regime, nomHab, description){
     const content = `
                     <div class="flex gap-4 p-4 justify-end">
-                        <button name="modifier">✏️</button>
+                        <button name="modifier" onclick="turnTo_animal(${id})">✏️</button>
                         <button name="supprimer"><a href="php/deleteAnimal.php?id=${id}">🗑️</a></button>
+                        <button class='hidden' type='submit' title='Enregistrer'>💾</button>
                     </div>
                     <div class="text-center">
                         <img src="${image}" alt="${nom}" class="w-90 h-64 mx-auto rounded-3xl shadow-2xl mb-6">
@@ -42,6 +54,59 @@ function showAnimalDetails(id, image, nom, regime, nomHab, description){
                             <p class="text-xl text-gray-700 bg-yellow-100 p-3 rounded-2xl">${regime}</p>
                             <p class="text-xl text-gray-700 bg-yellow-100 p-3 rounded-2xl">Un animal qui habite à: ${nomHab}</p>
                             <p class="text-xl text-gray-700 bg-yellow-100 p-3 rounded-2xl">(${nomHab}) ${description}</p>
+                        </div>
+                    </div>
+                    <div class="hidden bg-white/50 rounded-lg p-4 shadow space-y-4">
+                        <h2 class="text-xl font-semibold">Modifier un animal</h2>
+
+                        <div>
+                            <label for="habitat-img" class="block text-sm font-medium mb-1">
+                                URL de l'image
+                            </label>
+                            <input
+                                type="url"
+                                id="habitat-img"
+                                name="habitatImg"
+                                placeholder="https://exemple.com/mon-image.jpg"
+                                class="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            >
+                        </div>
+
+                        <div>
+                            <label for="animal-name" class="block text-sm font-medium mb-1">Nom de l'animal</label>
+                            <input type="text" id="animal-name" name="animalName" required
+                            class="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            >
+                        </div>
+
+                        <div>
+                            <label for="animal-species" class="block text-sm font-medium mb-1">Régime alimentaire</label>
+                            <select id="animal-species" name="animalSpecies" required
+                            class="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            >
+                            <option value="" selected disabled>-- Choisir un régime --</option>
+                            <option value="Carnivore">Carnivore</option>
+                            <option value="Herbivore">Herbivore</option>
+                            <option value="Omnivore">Omnivore</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="animal-habitat" class="block text-sm font-medium mb-1">Habitat</label>
+                            <select id="animal-habitat" name="animalHabitat" required
+                            class="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            >
+                            <option value="" selected disabled>-- Choisir un habitat --</option>
+                            <?php
+                                $sql = "select IdHab, NomHab from Habitats";
+                                $resultats = $connexion->query($sql);
+                                foreach($resultats as $resultat){
+                                    $idHab = $resultat['IdHab'];
+                                    $nomHab = $resultat['NomHab'];
+                                    echo "<option value='$idHab'>$nomHab</option>";
+                                }
+                            ?>
+                            </select>
                         </div>
                     </div>
                 `;
@@ -54,7 +119,6 @@ function closeModal(){
 }
 
 function turnTo(id){
-    console.log(id);
     document.getElementById(id).querySelector('div').classList.toggle('hidden');
     document.getElementById(id).querySelector('p').classList.toggle('hidden');
     document.getElementById(id).querySelector('form').classList.toggle('hidden');
