@@ -35,16 +35,18 @@
             <!-- Section Animaux -->
             <section id="animaux" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <?php
-                    $sql = "select ID, Nom, Type_alimentaire, Image, a.IdHab, NomHab, Description_Hab from animaux a, habitats h where a.IdHab = h.IdHab";
+                    $sql = "select a.ID, a.Nom, a.Type_alimentaire, a.Image, a.IdHab, h.NomHab, h.Description_Hab
+                    from animaux a
+                    left join habitats h ON a.IdHab = h.IdHab";
                     $resultats = $connexion->query($sql);
                     foreach($resultats as $resultat){
                         $id = $resultat['ID'];
                         $image = $resultat['Image'];
                         $nom = $resultat['Nom'];
                         $regime = $resultat['Type_alimentaire'];
-                        $idHab = $resultat['IdHab'];
-                        $nomHab = $resultat['NomHab'];
-                        $description = $resultat['Description_Hab'];
+                        $idHab = $resultat['IdHab']??0;
+                        $nomHab = $resultat['NomHab']??'Non spécifié.';
+                        $description = $resultat['Description_Hab']??'Aucune description.';
                         echo "<div class='bg-white/80 backdrop-blur-sm rounded-3xl p-6 shadow-xl hover:shadow-2xl transition-all hover:scale-105 text-center'>
                             <img src=$image alt=$nom class='w-full h-48 object-cover rounded-2xl mb-4 mx-auto'>
                             <h3 class='text-2xl font-bold text-orange-500 mb-2'>$nom</h3>
@@ -82,7 +84,7 @@
                                     <h2 class='text-lg font-semibold mb-1'>".$resultat['NomHab']."</h2>
                                     <div>
                                         <a href=''>✏️</a>
-                                        <a href=''>🗑️</a>
+                                        <a href='php/deleteHabitat.php?id=".$resultat['IdHab']."'>🗑️</a>
                                     </div>
                                 </div>
                                 <p class='text-sm text-gray-600 flex-1'>".$resultat['Description_Hab']."</p>
