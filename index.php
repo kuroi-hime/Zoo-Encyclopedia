@@ -35,7 +35,7 @@
             <!-- Section Animaux -->
             <section id="animaux" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <?php
-                    $sql = "select ID, Nom, Type_alimentaire, Image, a.IdHab, NomHab from animaux a, habitats h where a.IdHab = h.IdHab";
+                    $sql = "select ID, Nom, Type_alimentaire, Image, a.IdHab, NomHab, Description_Hab from animaux a, habitats h where a.IdHab = h.IdHab";
                     $resultats = $connexion->query($sql);
                     foreach($resultats as $resultat){
                         $id = $resultat['ID'];
@@ -44,16 +44,33 @@
                         $regime = $resultat['Type_alimentaire'];
                         $idHab = $resultat['IdHab'];
                         $nomHab = $resultat['NomHab'];
+                        $description = $resultat['Description_Hab'];
                         echo "<div class='bg-white/80 backdrop-blur-sm rounded-3xl p-6 shadow-xl hover:shadow-2xl transition-all hover:scale-105 text-center'>
                             <img src=$image alt=$nom class='w-full h-48 object-cover rounded-2xl mb-4 mx-auto'>
                             <h3 class='text-2xl font-bold text-orange-500 mb-2'>$nom</h3>
                             <p class='text-lg text-gray-600 mb-4'>Régime alimentaire: $regime</p>
-                            <a class='text-lg text-gray-600 mb-4'>Habitat: $nomHab</a>
-                            <button class='bg-blue-400 text-white px-8 py-3 rounded-full text-xl font-bold shadow-lg hover:bg-blue-300 transition-all w-full'>Découvrir</button>
+                            <button onclick=\"showAnimalDetails($id, '$image', '$nom', '$regime', '$nomHab', '$description')\" class='bg-blue-400 text-white px-8 py-3 rounded-full text-xl font-bold shadow-lg hover:bg-blue-300 transition-all w-full'>Découvrir</button>
                         </div>";
                     }
                 ?>
             </section>
+            <!-- Modale Détails Animal -->
+            <div id="animalModal" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+                <div class="bg-white/95 rounded-3xl p-2 max-w-md w-full shadow-2xl animate-in fade-in zoom-in duration-200">
+                    <button onclick="closeModal()" class="absolute top-4 right-4 text-3xl text-gray-500 hover:text-red-500">&times;</button>
+                    <div class="overflow-y-auto max-h-[90vh]">
+                        
+                        <div id="modalContent" class="overflow-hidden">
+                            <!-- Contenu dynamique ici -->
+                        </div>
+                        <div class="flex gap-4 mt-6">
+                            <!-- Sound Effect by <a href="https://pixabay.com/users/pwlpl-16464651/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=444190">Paul ( PWLPL)</a> from <a href="https://pixabay.com/sound-effects//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=444190">Pixabay</a> -->
+                            <!-- <button onclick="playSound()" class="flex-1 bg-green-400 text-white py-3 px-6 rounded-xl text-xl font-bold shadow-lg hover:bg-green-300 transition-all">🎵 Écouter</button> -->
+                            <button onclick="closeModal()" class="flex-1 bg-gray-400 text-white py-3 px-6 rounded-xl text-xl font-bold shadow-lg hover:bg-gray-300 transition-all">Fermer</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!-- Section Habitats -->
             <section id="habitats" class="hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <?php
