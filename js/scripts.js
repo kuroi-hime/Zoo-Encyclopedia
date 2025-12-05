@@ -15,7 +15,6 @@ function showCurrentSection(sectionName){
 animalsButton.addEventListener('click', ()=>{showCurrentSection('animaux')});
 habitatsButton.addEventListener('click', ()=>{showCurrentSection('habitats')});
 statisticsButton.addEventListener('click', ()=>{showCurrentSection('statistiques')});
-gameButton.addEventListener('click', ()=>{showCurrentSection('jeux')});
 addAnimal.addEventListener('click', ()=>{showCurrentSection('animal')});
 addHabitat.addEventListener('click', ()=>{showCurrentSection('habitat')});
 
@@ -50,4 +49,11 @@ function showAnimalDetails(id, image, nom, regime, nomHab, description){
 
 function closeModal(){
     document.getElementById('animalModal').classList.add('hidden');
+}
+
+function turnTo(id){
+    console.log(id);
+    document.getElementById(id).querySelector('div').classList.toggle('hidden');
+    document.getElementById(id).querySelector('p').classList.toggle('hidden');
+    document.getElementById(id).querySelector('form').classList.toggle('hidden');
 }

@@ -20,7 +20,7 @@
                 <button id="toStatistics" class="bg-red-400 text-white px-6 py-3 rounded-full text-xl shadow-lg hover:scale-110 transition-all">Statistiques</button>
                 <button id="addAnimal" class="bg-yellow-400 text-white px-6 py-3 rounded-full text-xl shadow-lg hover:scale-110 transition-all">+ animal</button>
                 <button id="addHabitat" class="bg-blue-400 text-white px-6 py-3 rounded-full text-xl shadow-lg hover:scale-110 transition-all">+ habitat</button>
-                <button id="toGame" class="bg-orange-400 text-white px-6 py-3 rounded-full text-xl shadow-lg hover:scale-110 transition-all">Jeux</button>
+                <!-- <button id="toGame" class="bg-orange-400 text-white px-6 py-3 rounded-full text-xl shadow-lg hover:scale-110 transition-all">Jeux</button> -->
             </nav>
         </header>
         <main id="content">
@@ -79,23 +79,47 @@
                     $sql = "select * from habitats";
                     $resultats = $connexion->query($sql);
                     foreach($resultats as $resultat){
-                        echo "<article class='bg-white rounded-2xl shadow p-4 flex flex-col'>
+                        $idHab = $resultat['IdHab'];
+                        $nomHab = $resultat['NomHab'];
+                        $description = $resultat['Description_Hab'];
+                        echo "<article id='habitat$idHab' class='bg-white rounded-2xl shadow p-4 flex flex-col'>
                                 <div class='flex justify-between'>
-                                    <h2 class='text-lg font-semibold mb-1'>".$resultat['NomHab']."</h2>
+                                    <h2 class='text-lg font-semibold mb-1'>$nomHab</h2>
                                     <div>
-                                        <a href=''>✏️</a>
-                                        <a href='php/deleteHabitat.php?id=".$resultat['IdHab']."'>🗑️</a>
+                                        <button onclick=\"turnTo('habitat$idHab')\" class='bg-transparent'>✏️</button>
+                                        <a href='php/deleteHabitat.php?id=$idHab'>🗑️</a>
                                     </div>
                                 </div>
-                                <p class='text-sm text-gray-600 flex-1'>".$resultat['Description_Hab']."</p>
-                                </article>";
+                                <p class='text-sm text-gray-600 flex-1'>$description</p>
+                                <form action='php/updateHabitat.php' method='post' class='hidden w-full flex flex-col gap-2'>
+                                    <div class='flex justify-between'>
+                                        <h2 class='text-lg font-semibold mb-1'>Modification d'habitat: $nomHab</h2>
+                                        <div class='flex justify-baseline items-center gap-2'>
+                                            <button type='submit' title='Enregistrer'>💾</button>
+                                            <button onclick=\"turnTo('habitat$idHab')\" type='button' class='text-red-500 text-3xl' title='Annuler'>&times;</button>
+                                        </div>
+                                    </div>
+                                    <input type='text' name='habitatName' placeholder='Entrez le nouveau nom d'habitat' value='$nomHab' required
+                                        class='w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500'
+                                    >
+                                    <input type='text' name='id' class='hidden' value='$idHab'>
+                                    <textarea name='habitatDescription' rows='3'
+                                        class='w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500'
+                                    >$description</textarea>
+                                </form>
+                            </article>";
                     }
                 ?>
             </section>
             <!-- Section Statistiques -->
             <section id="statistiques" class="hidden ">
-                <?php
-                ?>
+                <h1 class="text-2xl font-bold mb-4 text-slate-800">
+                    Animaux par habitat
+                </h1>
+                <p class="text-sm text-slate-500 mb-4">
+                    Chaque barre représente le nombre d’animaux dans un habitat du zoo.
+                </p>
+                <canvas id="habitatChart" class="w-full h-644"></canvas>
             </section>
             <!-- Section Animal -->
             <section id="animal" class="hidden max-w-screen">
@@ -206,9 +230,9 @@
                 </form>
             </section>
             <!-- Section Quiz -->
-            <section id="jeux" class="hidden ">
+            <!-- <section id="jeux" class="hidden ">
 
-            </section>
+            </section> -->
         </main>
         <script src="js/scripts.js"></script>
     </body>
