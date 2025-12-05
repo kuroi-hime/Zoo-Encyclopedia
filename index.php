@@ -74,7 +74,7 @@
                             <img src=$image alt=$nom class='w-full h-48 object-cover rounded-2xl mb-4 mx-auto'>
                             <h3 class='text-2xl font-bold text-orange-500 mb-2'>$nom</h3>
                             <p class='text-lg text-gray-600 mb-4'>Régime alimentaire: $regime</p>
-                            <button onclick=\"showAnimalDetails($id, '$image', '$nom', '$regime', '$nomHab', '$description')\" class='bg-blue-400 text-white px-8 py-3 rounded-full text-xl font-bold shadow-lg hover:bg-blue-300 transition-all w-full'>Découvrir</button>
+                            <button onclick=\"showAnimalDetails($id, '$image', '$nom', '$regime', $idHab, '$nomHab', '$description')\" class='bg-blue-400 text-white px-8 py-3 rounded-full text-xl font-bold shadow-lg hover:bg-blue-300 transition-all w-full'>Découvrir</button>
                         </div>";
                     }
                 ?>

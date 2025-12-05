@@ -29,7 +29,7 @@ function setImage(url){
 
 imgHabitat.addEventListener('input', ()=>{setImage(imgHabitat.value)});
 
-function turnTo_animal(id){
+function turnTo_animal(){
     const divs = document.getElementById('modalContent').querySelectorAll('div');
     const buttons = divs[0].querySelectorAll('button');
     buttons.forEach(button=>{
@@ -40,10 +40,10 @@ function turnTo_animal(id){
     divs[3].classList.toggle('hidden'); 
 }
 
-function showAnimalDetails(id, image, nom, regime, nomHab, description){
+function showAnimalDetails(id, image, nom, regime, idHab, nomHab, description){
     const content = `
                     <div class="flex gap-4 p-4 justify-end">
-                        <button name="modifier" onclick="turnTo_animal(${id})">✏️</button>
+                        <button name="modifier" onclick="turnTo_animal()">✏️</button>
                         <button name="supprimer"><a href="php/deleteAnimal.php?id=${id}">🗑️</a></button>
                         <button class='hidden' type='submit' title='Enregistrer'>💾</button>
                     </div>
@@ -69,6 +69,7 @@ function showAnimalDetails(id, image, nom, regime, nomHab, description){
                                 name="habitatImg"
                                 placeholder="https://exemple.com/mon-image.jpg"
                                 class="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                value="${image}"
                             >
                         </div>
 
@@ -76,6 +77,7 @@ function showAnimalDetails(id, image, nom, regime, nomHab, description){
                             <label for="animal-name" class="block text-sm font-medium mb-1">Nom de l'animal</label>
                             <input type="text" id="animal-name" name="animalName" required
                             class="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            value="${nom}"
                             >
                         </div>
 
@@ -83,18 +85,19 @@ function showAnimalDetails(id, image, nom, regime, nomHab, description){
                             <label for="animal-species" class="block text-sm font-medium mb-1">Régime alimentaire</label>
                             <select id="animal-species" name="animalSpecies" required
                             class="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            value="${regime}"
                             >
-                            <option value="" selected disabled>-- Choisir un régime --</option>
+                            <option value="" disabled>-- Choisir un régime --</option>
                             <option value="Carnivore">Carnivore</option>
                             <option value="Herbivore">Herbivore</option>
                             <option value="Omnivore">Omnivore</option>
                             </select>
                         </div>
-
                         <div>
                             <label for="animal-habitat" class="block text-sm font-medium mb-1">Habitat</label>
                             <select id="animal-habitat" name="animalHabitat" required
                             class="w-full border border-gray-300 rounded px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            
                             >
                             <option value="" selected disabled>-- Choisir un habitat --</option>
                             <?php
